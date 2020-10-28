@@ -8,6 +8,15 @@ public class Doctor implements SeesPatients, Comparable<Doctor> {
 
     //Constructor
 
+    public Doctor (){
+        name = "";
+        numDoctors++;
+        licenseNumber = numDoctors;
+        patients = new Patient [SeesPatients.MAX_PATIENTS];
+        numberOfPatients = 0;
+
+    }
+
     public Doctor (String name){
         this.name = name;
         numDoctors++;
@@ -35,7 +44,11 @@ public class Doctor implements SeesPatients, Comparable<Doctor> {
 
     @Override
     public Patient[] getPatients() {
-        return patients;
+        Patient [] returnPatients = new Patient [numberOfPatients];
+        for (int i =0; i<returnPatients.length; i++){
+            returnPatients[i] = patients[i]; 
+        }
+        return returnPatients;
     }
 
     @Override
@@ -52,22 +65,44 @@ public class Doctor implements SeesPatients, Comparable<Doctor> {
     
     @Override
     public void addPatient(Patient p) throws PatientException {
-        patients[numberOfPatients] = p;
-        numberOfPatients++;
+        
+        try{
+            if (numberOfPatients == SeesPatients.MAX_PATIENTS){
+                throw new PatientException(); 
+            }
+            patients[numberOfPatients] = p;
+            numberOfPatients++;
+        }
+        catch (PatientException pE){
+            System.out.print(pE.getMessage() );
+
+        }
 
     }
 
     @Override
     public int compareTo(Doctor o) {
-        // TODO Auto-generated method stub
-        return 0;
+        int comparisonVal = numberOfPatients - o.getNumberOfPatients();
+        if (comparisonVal > 0 ){
+            return 1;
+        }
+        else if (comparisonVal <0){
+            return -1;
+        }
+        else{
+            return 0;
+        }
     }
 
     
 
     @Override
     public boolean isPatient(Patient p) {
-        // TODO Auto-generated method stub
+        for( Patient o : patients){
+            if ( o.equals(p)){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -79,8 +114,15 @@ public class Doctor implements SeesPatients, Comparable<Doctor> {
 
     @Override
     public boolean equals(Object o){
-
-
+        if( o instanceof Doctor){
+            Doctor d = (Doctor) o;
+            if (this.compareTo(d) == 0){
+                if (name.equals(d.name)){
+                        return true;
+                }
+            }
+        }
+        return false;
     }
 
     

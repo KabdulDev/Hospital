@@ -1,4 +1,5 @@
 public class Pediatrician extends Doctor {
+    private static int patientCutOffYear = 2002;
     private boolean hasPrivatePractice;
     private String hospitalName;
 
@@ -31,18 +32,34 @@ public class Pediatrician extends Doctor {
     }
 
     //Methods
+    @Override
     public void addPatient(Patient p) throws PatientException {
-
+        if( p.getBirthYear()<=patientCutOffYear){
+            System.out.println("Patient too old");
+        }
+        else{
+            super.addPatient(p);
+        }
     }
 
     public String toString(){
-        String test= super.toString();
-        test += String.format("\nPediatrician: %s | hospital name=%15s", hasPrivatePractice, hospitalName);
+        String test = String.format("%s%nPediatrician: %s | hospital name=%15s", super.toString(), hasPrivatePractice, hospitalName);
         return test;
     }
 
-    public boolean equals(){
-
+    public boolean equals(Object o){
+        if (o instanceof Pediatrician){
+            super.equals(o);
+            Pediatrician p = (Pediatrician) o;
+            if (hasPrivatePractice == p.hasPrivatePractice()){
+                if (hospitalName.equals(p.getHospitalName())){
+                    return true;
+                }
+            }
+        }
+        
+        
+        return false;
     }
 
 }
