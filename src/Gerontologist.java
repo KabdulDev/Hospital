@@ -45,7 +45,7 @@ public class Gerontologist extends Doctor {
     public void addPatient (Patient p) throws PatientException {
         try{
             if( p.getBirthYear()>=patientCutOffYear){
-                throw PatientException;
+                throw new PatientException("Patient too young") ;
             }
             super.addPatient(p);
             
