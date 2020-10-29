@@ -34,11 +34,14 @@ public class Pediatrician extends Doctor {
     //Methods
     @Override
     public void addPatient(Patient p) throws PatientException {
-        if( p.getBirthYear()<=patientCutOffYear){
-            System.out.println("Patient too old");
-        }
-        else{
+        try{
+            if( p.getBirthYear()<=patientCutOffYear){
+               throw new PatientException("Patient too old");
+            }
             super.addPatient(p);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 
